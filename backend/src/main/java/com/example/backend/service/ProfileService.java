@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.DiaryMakerDTO;
+import com.example.backend.dto.DiaryMaker;
 import com.example.backend.model.ChildEntity;
 import com.example.backend.model.DiaryEntity;
 import com.example.backend.model.ProfileEntity;
@@ -9,6 +9,7 @@ import com.example.backend.repository.DiaryRepository;
 import com.example.backend.repository.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -37,6 +38,9 @@ public class ProfileService {
     @Autowired
     private ChildRepository childRepository;
 
+    @Value("${python.connected.url}")
+    private String pythonUrl;
+
     public List<ProfileEntity> showList(String parentId, String childId) {
         validate(parentId, childId);
         return profileRepository.findByChildId(childId);
@@ -56,7 +60,7 @@ public class ProfileService {
             ProfileEntity entity = show(parentId, childId, profileId);
             String fileName = entity.getWordCloud();
 
-            String url = "http://127.0.0.1:5000/profile?fileName=" + fileName;
+            String url = pythonUrl + "/profile?fileName=" + fileName;
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<byte[]> response = restTemplate.getForEntity(url, byte[].class);
 
@@ -88,8 +92,8 @@ public class ProfileService {
                     .map(DiaryEntity::getContent)
                     .collect(Collectors.joining("\n"));
 
-            DiaryMakerDTO dto = new DiaryMakerDTO(combinedContent, fileName);
-            String url = "http://127.0.0.1:5000/profile";
+            DiaryMaker dto = new DiaryMaker(combinedContent, fileName);
+            String url = pythonUrl + "/profile";
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
