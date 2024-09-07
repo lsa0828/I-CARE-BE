@@ -1,13 +1,12 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.DiaryMakerDTO;
-import com.example.backend.model.IconEntity;
+import com.example.backend.dto.DiaryMaker;
 import com.example.backend.repository.IconRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,10 +22,13 @@ public class IconService {
     @Autowired
     private IconRepository iconRepository;
 
+    @Value("${python.connected.url}")
+    private String pythonUrl;
+
     public List<String> create(String content) {
         try {
-            DiaryMakerDTO dto = new DiaryMakerDTO(content);
-            String url = "http://127.0.0.1:5000/icon";
+            DiaryMaker dto = new DiaryMaker(content);
+            String url = pythonUrl + "/icon";
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

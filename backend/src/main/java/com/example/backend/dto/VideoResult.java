@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class DiaryMakerDTO {
-    private String diary;
+public class VideoResult {
     private String fileName;
-
-    public DiaryMakerDTO(String diary) {
-        this.diary = diary;
-    }
+    private String label;
 }
