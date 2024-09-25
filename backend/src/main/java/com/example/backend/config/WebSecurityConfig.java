@@ -43,7 +43,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/parent/**", "/api/child/**", "/login").permitAll()
+                        .requestMatchers("/api/parent/**", "/api/child/**", "/login", "/ws/**").permitAll()
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
