@@ -34,7 +34,7 @@ public class TokenProvider {
                 .setIssuer("social Login")
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .claim("id", parent.getParentId())
+                .claim("parentId", parent.getParentId())
                 .compact();
     }
 
@@ -50,7 +50,7 @@ public class TokenProvider {
                 .setIssuer(kakao + " Login")
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .claim("id", parent.getParentId())
+                .claim("parentId", parent.getParentId())
                 .compact();
     }
 
@@ -67,7 +67,7 @@ public class TokenProvider {
 
     public String validateAndGetParentId(String token) {
         Claims claims = getClaims(token);
-        return claims.get("id", String.class);
+        return claims.get("parentId", String.class);
     }
 
     public Authentication getAuthentication(String token) {
