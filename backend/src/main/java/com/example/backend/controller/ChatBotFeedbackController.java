@@ -33,7 +33,6 @@ public class ChatBotFeedbackController {
             ResponseDTO<ChatBotFeedbackDTO> response = ResponseDTO.<ChatBotFeedbackDTO>builder().error(error).build();
             return ResponseEntity.badRequest().body(response);
         }
-
     }
 
     @GetMapping("/list") //feed back list
