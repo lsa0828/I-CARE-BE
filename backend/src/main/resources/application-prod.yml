@@ -1,3 +1,23 @@
+server:
+  port : 5000
+  servlet:
+    encoding:
+      force-response: true
+
+spring:
+  application:
+    name: backend
+  jpa:
+    database: MYSQL
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
+    username: ${rds.username}
+    password: ${rds.password}
+
 jwt:
   secret: anNoLXNwcmluZ2Jvb3QtYW5kLWp3dC10dXRvcmlhbC10aGlzLWlzLWZvci1nZW5lcmF0aW5nLWp3dC1zZWNyZXRrZXktYmFzZTY0Cg==
 
@@ -15,10 +35,22 @@ security:
           scope:
             - profile_nickname
             - account_email
-
       provider:
         kakao:
           authorization-url: https://kauth.kakao.com/oauth/authorize
           token-uri: https://kauth.kakao.com/oauth/token
           user-info-uri: https://kapi.kakao.com/v2/user/me
           user-name-attribute: id
+
+python:
+  connected:
+    url: ${FLASK_SERVER_URL}
+
+openai:
+  model:
+    id:
+      a: ${OPENAI_MODEL_ID_A}
+      b: ${OPENAI_MODEL_ID_B}
+  api:
+    key:
+      b: ${OPENAI_API_KEY_B}
