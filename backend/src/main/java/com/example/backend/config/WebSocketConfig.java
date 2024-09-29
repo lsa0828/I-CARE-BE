@@ -1,6 +1,7 @@
 package com.example.backend.config;
 
-import com.example.backend.service.VideoStatusHandler;
+import com.example.backend.socket.VideoStatusHandler;
+import com.example.backend.socket.VideoStreamHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(context.getBean(VideoStatusHandler.class), "/ws/video/status")
-                .setAllowedOrigins("http://localhost:3000")
+                .addHandler(context.getBean(VideoStreamHandler.class), "/ws/video/stream")
+                .setAllowedOrigins("*")
                 .addInterceptors(new HttpSessionHandshakeInterceptor());
     }
 }

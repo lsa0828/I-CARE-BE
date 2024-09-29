@@ -1,7 +1,6 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.DiaryMaker;
-import com.example.backend.repository.IconRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +18,6 @@ import java.util.List;
 public class IconService {
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private IconRepository iconRepository;
 
     @Value("${python.connected.url}")
     private String pythonUrl;
