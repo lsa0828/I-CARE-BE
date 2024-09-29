@@ -1,15 +1,12 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.ChatBotDTO;
 import com.example.backend.dto.ChatBotFeedbackDTO;
 import com.example.backend.dto.ResponseDTO;
-import com.example.backend.model.ChatBotEntity;
 import com.example.backend.model.ChatBotFeedbackEntity;
 import com.example.backend.service.ChatBotFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
