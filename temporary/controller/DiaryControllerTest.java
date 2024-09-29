@@ -4,12 +4,17 @@ import com.example.backend.dto.DiaryDTO;
 import com.example.backend.model.DiaryEntity;
 import com.example.backend.repository.DiaryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -22,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("dev")
 public class DiaryControllerTest {
     @Autowired
     protected MockMvc mockMvc;
@@ -30,16 +36,25 @@ public class DiaryControllerTest {
     @Autowired
     private DiaryRepository diaryRepository;
 
+    @BeforeEach
+    public void setup() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken("mockParentId", null, null);
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
+    }
+
     @DisplayName("createDiary: 일기 추가에 성공한다.")
     @Test
     public void createDiary() throws Exception {
         final String url = "/api/diary";
         final String childId = "temporary-childId";
         final String content = "temporary-content";
-        final Long iconId = 1L;
+        final String icon = "A";
         final DiaryDTO dto = DiaryDTO.builder()
                 .content(content)
-                .iconId(iconId)
+                .icon(icon)
                 .build();
 
         final String requestParam = "?childId=" + childId;
@@ -47,7 +62,8 @@ public class DiaryControllerTest {
 
         final ResultActions result = mockMvc.perform(post(url + requestParam)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(requestBody));
+                .content(requestBody)
+                .principal(new UsernamePasswordAuthenticationToken("mockParentId", null)));
 
         result.andExpect(status().isOk());
     }
@@ -122,7 +138,7 @@ public class DiaryControllerTest {
                 .diaryId(savedEntity.getDiaryId())
                 .date(savedEntity.getDate())
                 .content(savedEntity.getContent())
-                .iconId(savedEntity.getIconId())
+                .icon(savedEntity.getIcon())
                 .build();
 
         final String requestParam = "?childId=" + childId;
@@ -144,15 +160,16 @@ public class DiaryControllerTest {
         final String childId = "temporary-childId";
         final LocalDate date = LocalDate.now();
         final String content = "temporary-content";
-        final Long iconId = 1L;
+        final String icon = "A";
         DiaryEntity entity = DiaryEntity.builder()
                 .diaryId(diaryId)
                 .parentId(parentId)
                 .childId(childId)
                 .date(date)
                 .content(content)
-                .iconId(iconId)
+                .icon(icon)
                 .build();
         return diaryRepository.save(entity);
     }
 }
+

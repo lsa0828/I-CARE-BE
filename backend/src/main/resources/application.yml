@@ -1,13 +1,40 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: backend
+  datasource:
+    initialization-mode: always
+    sql-script-encoding: UTF-8
+
+server:
+  servlet:
+    encoding:
+      force-response: true
+
+python:
+  connected:
+    url: http://${PYTHON_SERVER_URL}
+
+openai:
+  api:
+    key:
+      a: ${OPENAI_API_KEY_A}
+      b: ${OPENAI_API_KEY_B}
+  model:
+    id:
+      a: ${OPENAI_MODEL_ID_A}
+      b: ${OPENAI_MODEL_ID_B}
+
 jwt:
   secret: anNoLXNwcmluZ2Jvb3QtYW5kLWp3dC10dXRvcmlhbC10aGlzLWlzLWZvci1nZW5lcmF0aW5nLWp3dC1zZWNyZXRrZXktYmFzZTY0Cg==
-
 security:
   oauth2:
     client:
       registration:
         kakao:
-          client-id: {KAKAO_CLIENT_ID}
-          client-secret: {KAKAO_CLIENT_SECRET}
+          client-id: ${KAKAO_CLIENT_ID}
+          client-secret: ${KAKAO_CLIENT_SECRET}
           client-authentication-method: client_secret_post
           redirect-uri: http://localhost:8080/login/oauth2/code/kakao
           authorization-grant-type: authorization_code
@@ -15,7 +42,6 @@ security:
           scope:
             - profile_nickname
             - account_email
-
       provider:
         kakao:
           authorization-url: https://kauth.kakao.com/oauth/authorize
