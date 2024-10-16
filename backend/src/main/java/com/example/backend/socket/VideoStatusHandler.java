@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +13,9 @@ import java.net.URL;
 @Slf4j
 @Component
 @Scope("prototype")
-public class VideoStatusHandler extends BaseVideoHandler {
+public class VideoStatusHandler extends BaseHandler {
     @Override
-    protected void startVideoTask(String childId) {
+    protected void startTask(String childId) {
         new Thread(() -> {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(new URL(pythonUrl + "/video/status?childId=" + childId).openStream()))) {
                 String line;

@@ -1,5 +1,6 @@
 package com.example.backend.config;
 
+import com.example.backend.socket.GestureStreamHandler;
 import com.example.backend.socket.VideoStatusHandler;
 import com.example.backend.socket.VideoStreamHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(context.getBean(VideoStatusHandler.class), "/ws/video/status")
                 .addHandler(context.getBean(VideoStreamHandler.class), "/ws/video/stream")
+                .addHandler(context.getBean(GestureStreamHandler.class), "/ws/gesture/stream")
                 .setAllowedOrigins("*")
                 .addInterceptors(new HttpSessionHandshakeInterceptor());
     }

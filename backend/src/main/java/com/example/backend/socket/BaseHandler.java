@@ -17,7 +17,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @Slf4j
 @Component
 @Scope("prototype")
-public abstract class BaseVideoHandler extends TextWebSocketHandler {
+public abstract class BaseHandler extends TextWebSocketHandler {
     @Value("${python.connected.url}")
     protected String pythonUrl;
     protected WebSocketSession session;
@@ -33,7 +33,7 @@ public abstract class BaseVideoHandler extends TextWebSocketHandler {
         log.info("WebSocket connection established: " + session.getId());
     }
 
-    protected abstract void startVideoTask(String childId);
+    protected abstract void startTask(String childId);
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -44,7 +44,7 @@ public abstract class BaseVideoHandler extends TextWebSocketHandler {
         if(token != null) {
             String parentId = tokenProvider.validateAndGetParentId(token);
             validate(parentId, childId);
-            startVideoTask(childId);
+            startTask(childId);
         } else {
             this.session.sendMessage(new TextMessage("Invalid token"));
         }
