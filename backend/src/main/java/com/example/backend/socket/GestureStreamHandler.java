@@ -16,14 +16,14 @@ import java.util.Arrays;
 @Slf4j
 @Component
 @Scope("prototype")
-public class VideoStreamHandler extends BaseHandler {
+public class GestureStreamHandler extends BaseHandler {
     private volatile boolean isStreaming = false;
     private static final int BUFFER_SIZE = 1024 * 64;
     @Override
     protected void startTask(String childId) {
         isStreaming = true;
         new Thread(() -> {
-            try (InputStream in = new URL(pythonUrl + "/video/stream?childId=" + childId/* + '&t=' + new Date().getTime()*/).openStream()) {
+            try (InputStream in = new URL(pythonUrl + "/gesture/stream?childId=" + childId).openStream()) {
                 byte[] buffer = new byte[BUFFER_SIZE]; // 버퍼 크기
                 int bytesRead;
                 log.info("Session is opened, sending frame to React");
