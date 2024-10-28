@@ -1,5 +1,6 @@
 package com.example.backend.config;
 
+import com.example.backend.socket.GestureLabelHandler;
 import com.example.backend.socket.GestureStreamHandler;
 import com.example.backend.socket.VideoStatusHandler;
 import com.example.backend.socket.VideoStreamHandler;
@@ -21,6 +22,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry.addHandler(context.getBean(VideoStatusHandler.class), "/ws/video/status")
                 .addHandler(context.getBean(VideoStreamHandler.class), "/ws/video/stream")
                 .addHandler(context.getBean(GestureStreamHandler.class), "/ws/gesture/stream")
+                .addHandler(context.getBean(GestureLabelHandler.class), "ws/gesture/label")
                 .setAllowedOrigins("*")
                 .addInterceptors(new HttpSessionHandshakeInterceptor());
     }

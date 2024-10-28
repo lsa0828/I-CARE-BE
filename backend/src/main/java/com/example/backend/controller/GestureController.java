@@ -58,13 +58,13 @@ public class GestureController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(resource);
     }
-
+/*
     @GetMapping("/predict")
     public ResponseEntity<?> predictGesture(@AuthenticationPrincipal String parentId, @RequestParam("childId") String childId) {
         GestureCheck checks = gestureService.predict(parentId, childId);
         return ResponseEntity.ok().body(checks);
     }
-
+*/
     @GetMapping("/image")
     public ResponseEntity<?> getResultImage(@AuthenticationPrincipal String parentId, @RequestParam("childId") String childId, @RequestParam("gestureId") String gestureId) {
         Resource resource = gestureService.getImage(parentId, childId, gestureId);
